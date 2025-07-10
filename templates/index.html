@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name = "viewport" content="width = device-width, initial-scale = 1.0">
     <title>SplitSmart</title>
+    <link rel = "stylesheet" href = "../static/style.css">
 </head>
 <body>
+    <header>
     <h1>Welcome to SplitSmart</h1>
     <p>This is where we'll track shared expenses!</p>
+    </header>
+
+    <main>
+        <div id = "userInputs">
+            <form>
+                <label for="rent">Rent:</label>
+                <input type="text" id="rent" name="rent"><br>
+
+                <label for="groceries">Groceries:</label>
+                <input type="text" id="groceries" name="groceries"> 
+            </form>
+        </div>
+
+        <div id = "buttons">
+            <button>Add Bill</button>
+            <button>View Debts</button>
+        </div>
+
+        <!--Placeholder div where final results could be displayed-->
+        <div id = results>
+            <p>Results:</p>
+            <br>
+
+        </div>
+    </main>
 </body>
 </html>

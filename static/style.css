@@ -1,0 +1,41 @@
+body {
+    background-color: grey;
+    height:100vh;
+}
+
+header, main {
+    max-width: 800px;
+    background-color: lightgrey;
+    padding: 20px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 3px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#userInputs{
+    padding-bottom: 20px;
+}
+
+input{
+    margin:5px;
+}
+
+label{
+    display: inline-block;
+    width:70px;
+    text-align: right;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#results{
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-top: 10px;
+}

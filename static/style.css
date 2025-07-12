@@ -14,6 +14,10 @@ header, main {
     margin-right: auto;
 }
 
+#roommates{
+    padding-bottom: 20px;
+}
+
 #userInputs{
     padding-bottom: 20px;
 }
@@ -24,7 +28,7 @@ input{
 
 label{
     display: inline-block;
-    width:70px;
+    width:80px;
     text-align: right;
 }
 

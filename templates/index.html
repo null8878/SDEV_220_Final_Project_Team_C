@@ -4,6 +4,57 @@
     <meta name = "viewport" content="width = device-width, initial-scale = 1.0">
     <title>SplitSmart</title>
     <link rel = "stylesheet" href = "../static/style.css">
+
+    <script>
+        function validateForm() {
+            //Pulling data from the user input forms
+            let rm1 = document.getElementById("rm1").value
+            let rm2 = document.getElementById("rm2").value
+            let rm3 = document.getElementById("rm3").value
+            let rm4 = document.getElementById("rm4").value
+            
+            let rent = document.getElementById("rent").value
+            let groceries = document.getElementById("groceries").value
+
+            inputArray = [rm1,rm2,rm3,rm4,rent,groceries]
+
+            numberArray = [rent,groceries]
+
+            //Checking that none of the inputs are blank
+            for (let i = 0; i < inputArray.length; i++) {
+                if (inputArray[i].length < 1) {
+                    alert("Please fill out all blank fields");
+                    return false;
+                } 
+            }
+            
+            //Checking that the costs are all numbers
+            for(let i = 0; i < numberArray.length; i ++){
+                if (isNaN(parseFloat(numberArray[i]))){
+                    alert("Please input all costs as a valid number");
+                    return false;
+                } else if(parseFloat(numberArray[i]) < 0) {
+                    alert("Please input all costs as a valid number");
+                    return false;                  
+                } else {
+                numberArray[i] = parseFloat(numberArray[i]);
+                }
+            }
+
+            //returns true if all inputs are valid
+            return true;
+        }
+
+        //onclick function for the Add Bill button
+        function addBill(){
+            validateForm();
+        }
+
+        //onclick function for the View Debts button
+        function viewDebts(){
+            validateForm();
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -39,8 +90,8 @@
         </div>
 
         <div id = "buttons">
-            <button>Add Bill</button>
-            <button>View Debts</button>
+            <button onclick = "addBill()">Add Bill</button>
+            <button onclick = "viewDebts()">View Debts</button>
         </div>
 
         <!--Placeholder div where final results could be displayed-->

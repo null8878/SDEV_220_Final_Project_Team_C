@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name = "viewport" content="width = device-width, initial-scale = 1.0">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
     <title>SplitSmart</title>
-    <link rel = "stylesheet" href = "../static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
 
     <script>
         function validateForm() {
@@ -12,32 +12,31 @@
             let rm2 = document.getElementById("rm2").value
             let rm3 = document.getElementById("rm3").value
             let rm4 = document.getElementById("rm4").value
-            
+
             let rent = document.getElementById("rent").value
             let groceries = document.getElementById("groceries").value
 
-            inputArray = [rm1,rm2,rm3,rm4,rent,groceries]
-
-            numberArray = [rent,groceries]
+            inputArray = [rm1, rm2, rm3, rm4, rent, groceries]
+            numberArray = [rent, groceries]
 
             //Checking that none of the inputs are blank
             for (let i = 0; i < inputArray.length; i++) {
                 if (inputArray[i].length < 1) {
                     alert("Please fill out all blank fields");
                     return false;
-                } 
+                }
             }
-            
+
             //Checking that the costs are all numbers
-            for(let i = 0; i < numberArray.length; i ++){
-                if (isNaN(parseFloat(numberArray[i]))){
+            for (let i = 0; i < numberArray.length; i++) {
+                if (isNaN(parseFloat(numberArray[i]))) {
                     alert("Please input all costs as a valid number");
                     return false;
-                } else if(parseFloat(numberArray[i]) < 0) {
+                } else if (parseFloat(numberArray[i]) < 0) {
                     alert("Please input all costs as a valid number");
-                    return false;                  
+                    return false;
                 } else {
-                numberArray[i] = parseFloat(numberArray[i]);
+                    numberArray[i] = parseFloat(numberArray[i]);
                 }
             }
 
@@ -46,59 +45,98 @@
         }
 
         //onclick function for the Add Bill button
-        function addBill(){
-            validateForm();
+        function addBill() {
+            if (!validateForm()) return;
+
+            const data = {
+                rm1: document.getElementById("rm1").value,
+                rm2: document.getElementById("rm2").value,
+                rm3: document.getElementById("rm3").value,
+                rm4: document.getElementById("rm4").value,
+                rent: document.getElementById("rent").value,
+                groceries: document.getElementById("groceries").value
+            };
+
+            fetch('/add_expense', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.status || result.error);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Failed to add expense.");
+            });
         }
 
         //onclick function for the View Debts button
-        function viewDebts(){
-            validateForm();
+        function viewDebts() {
+            if (!validateForm()) return;
+
+            fetch('/get_expenses')
+                .then(response => response.json())
+                .then(data => {
+                    let resultsDiv = document.getElementById("results");
+                    resultsDiv.innerHTML = "<p>Results:</p><br>";
+
+                    data.forEach(exp => {
+                        resultsDiv.innerHTML += `• ${exp.description}: $${exp.amount}<br>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Failed to load expenses.");
+                });
         }
     </script>
 </head>
 <body>
     <header>
-    <h1>Welcome to SplitSmart</h1>
-    <p>This is where we'll track shared expenses!</p>
+        <h1>Welcome to SplitSmart</h1>
+        <p>This is where we'll track shared expenses!</p>
     </header>
 
     <main>
-        <div id = "roommates">
+        <div id="roommates">
             <form>
-                <label for = "rm1">Roomate 1:</label>
-                <input type = "text" id = "rm1" name = "rm1"><br>
+                <label for="rm1">Roommate 1:</label>
+                <input type="text" id="rm1" name="rm1"><br>
 
-                <label for = "rm2">Roomate 2:</label>
-                <input type = "text" id = "rm2" name = "rm2"><br>
+                <label for="rm2">Roommate 2:</label>
+                <input type="text" id="rm2" name="rm2"><br>
 
-                <label for = "rm3">Roomate 3:</label>
-                <input type = "text" id = "rm3" name = "rm3"><br>
+                <label for="rm3">Roommate 3:</label>
+                <input type="text" id="rm3" name="rm3"><br>
 
-                <label for = "rm4">Roomate 4:</label>
-                <input type = "text" id = "rm4" name = "rm4"><br>
-
+                <label for="rm4">Roommate 4:</label>
+                <input type="text" id="rm4" name="rm4"><br>
             </form>
         </div>
-        <div id = "userInputs">
+
+        <div id="userInputs">
             <form>
                 <label for="rent">Rent:</label>
                 <input type="text" id="rent" name="rent"><br>
 
                 <label for="groceries">Groceries:</label>
-                <input type="text" id="groceries" name="groceries"> 
+                <input type="text" id="groceries" name="groceries">
             </form>
         </div>
 
-        <div id = "buttons">
-            <button onclick = "addBill()">Add Bill</button>
-            <button onclick = "viewDebts()">View Debts</button>
+        <div id="buttons">
+            <button onclick="addBill()">Add Bill</button>
+            <button onclick="viewDebts()">View Debts</button>
         </div>
 
         <!--Placeholder div where final results could be displayed-->
-        <div id = results>
+        <div id="results">
             <p>Results:</p>
             <br>
-
         </div>
     </main>
 </body>

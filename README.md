@@ -1,43 +1,47 @@
 # SplitSmart
 
-This project is a simple Flask application designed to track shared household expenses. It was developed as the final project for SDEV-220 (Team C).
+SplitSmart is a small Flask-based web application used to track shared expenses between roommates. It was created as the final project for SDEV‑220 (Team C).
 
-## Requirements
+## Features
 
-- Python 3
-- Flask (see `requirements.txt`)
+- Web form built with HTML and vanilla JavaScript
+- Input validation on the client side
+- `/add_expense` API route stores rent and grocery costs in an SQLite database
+- `/get_expenses` API route returns a JSON list of saved expenses
 
-## Setup
+## Directory overview
 
-1. Create and activate a virtual environment (optional but recommended):
+- `app.py` – Flask routes and server configuration
+- `data/` – SQLite schema and helper functions (`db.py`)
+- `templates/` – HTML interface (`index.html`)
+- `static/` – basic stylesheet
+- `classes/` – placeholder modules for future object‑oriented design
+
+## Installation
+
+1. (Optional) Create a virtual environment
    ```bash
    python -m venv venv
    source venv/bin/activate
    ```
-2. Install dependencies:
+2. Install dependencies
    ```bash
    pip install -r requirements.txt
    ```
-3. Initialize the SQLite database:
+3. Initialize the database
    ```bash
    flask --app app.py init-db
    ```
-4. Run the development server:
+4. Run the development server
    ```bash
    flask --app app.py run -p 3000
    ```
 
-Navigate to `http://localhost:3000` in your browser to use the app.
+Open <http://localhost:3000> in your browser to access the app.
 
-## Project Structure
+## Usage example
 
-- `app.py` – main Flask application.
-- `data/` – database helpers and schema.
-- `templates/` – HTML templates.
-- `static/` – CSS styles.
-- `classes/` – placeholder Python modules for future expansion.
+Enter the names of up to four roommates and specify the rent and grocery totals. Click **Add Bill** to save the expenses or **View Debts** to retrieve everything stored in the database.
 
-## Usage
-
-Use the web form on the homepage to add rent and grocery expenses for up to four roommates. The "View Debts" button retrieves stored expenses from the database.
+The repository includes a sample `data/database` file for convenience. You can delete it and run the `init-db` command to start fresh.
 

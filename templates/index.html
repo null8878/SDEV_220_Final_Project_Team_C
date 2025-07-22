@@ -19,25 +19,27 @@
             inputArray = [rm1, rm2, rm3, rm4, rent, groceries]
             numberArray = [rent, groceries]
 
-            //Checking that none of the inputs are blank
-            for (let i = 0; i < inputArray.length; i++) {
-                if (inputArray[i].length < 1) {
-                    alert("Please fill out all blank fields");
-                    return false;
-                }
-            }
+            //Checking that the costs are all valid numbers or blank
 
-            //Checking that the costs are all numbers
-            for (let i = 0; i < numberArray.length; i++) {
-                if (isNaN(parseFloat(numberArray[i]))) {
-                    alert("Please input all costs as a valid number");
-                    return false;
-                } else if (parseFloat(numberArray[i]) < 0) {
-                    alert("Please input all costs as a valid number");
-                    return false;
-                } else {
-                    numberArray[i] = parseFloat(numberArray[i]);
+            for(let i = 0; i< numberArray.length;i++) {
+                //Checking if the field is blank
+                if (numberArray[i] === ""){
+                    numberArray[i] = 0;
                 }
+                //Checkin if the field contains a number
+                else if (isNaN(parseFloat(numberArray[i]))){
+                    alert("Please input all costs as a valid number");
+                    return false;
+                }
+                //Checking if the field contains a positive number
+                else if(parseFloat(numberArray[i]) < 0){
+                    alert("Please input all costs as a valid number");
+                    return false;
+                } 
+                //The field input is a valid, positive number
+                else {
+                    numberArray[i] = parseFloat(numberArray[i]);
+                }  
             }
 
             //returns true if all inputs are valid
@@ -72,6 +74,10 @@
                 console.error('Error:', error);
                 alert("Failed to add expense.");
             });
+
+            //Clearing the form
+            document.getElementById("roomateForm").reset();
+            document.getElementById("inputForm").reset();
         }
 
         //onclick function for the View Debts button
@@ -103,7 +109,7 @@
 
     <main>
         <div id="roommates">
-            <form>
+            <form id = "roomateForm">
                 <label for="rm1">Roommate 1:</label>
                 <input type="text" id="rm1" name="rm1"><br>
 
@@ -119,7 +125,7 @@
         </div>
 
         <div id="userInputs">
-            <form>
+            <form id = "inputForm">
                 <label for="rent">Rent:</label>
                 <input type="text" id="rent" name="rent"><br>
 

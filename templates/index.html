@@ -67,6 +67,13 @@
             .then(response => response.json())
             .then(result => {
                 alert(result.status || result.error);
+                // Auto-clear form fields after submission
+                document.getElementById("rm1").value = '';
+                document.getElementById("rm2").value = '';
+                document.getElementById("rm3").value = '';
+                document.getElementById("rm4").value = '';
+                document.getElementById("rent").value = '';
+                document.getElementById("groceries").value = '';
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -76,22 +83,33 @@
 
         //onclick function for the View Debts button
         function viewDebts() {
-            if (!validateForm()) return;
+            if (
+                !document.getElementById("rm1").value ||
+                !document.getElementById("rm2").value ||
+                !document.getElementById("rm3").value ||
+                !document.getElementById("rm4").value
+            ) {
+                alert("Please fill out all roommate names to view debts.");
+                return;
+            }
 
-            fetch('/get_expenses')
-                .then(response => response.json())
-                .then(data => {
-                    let resultsDiv = document.getElementById("results");
-                    resultsDiv.innerHTML = "<p>Results:</p><br>";
+            const query = new URLSearchParams({
+                rm1: document.getElementById("rm1").value,
+                rm2: document.getElementById("rm2").value,
+                rm3: document.getElementById("rm3").value,
+                rm4: document.getElementById("rm4").value
+            }).toString();
 
-                    data.forEach(exp => {
-                        resultsDiv.innerHTML += `• ${exp.description}: $${exp.amount}<br>`;
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("Failed to load expenses.");
-                });
+            fetch(`/get_balances?${query}`)
+            .then(response => response.json())
+            .then(data => {
+                let resultsDiv = document.getElementById("results");
+                resultsDiv.innerHTML = "<p>Results:</p><br>";
+
+                for (const [who, amount] of Object.entries(data)) {
+                    resultsDiv.innerHTML += `• ${who}: $${amount}<br>`;
+                }
+            })
         }
     </script>
 </head>

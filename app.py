@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from data import db
+from collections import defaultdict  # NEW
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'data/database'
@@ -77,6 +78,43 @@ def get_expenses():
         })
 
     return jsonify(result)
+
+# NEW: Simple class for in-memory use only
+class Roommate:
+    def __init__(self, key, name):
+        self.key = key
+        self.name = name
+
+@app.route('/get_balances', methods=['GET'])
+def get_balances():
+    conn = db.get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT amount, description FROM expense')
+    expenses = cursor.fetchall()
+
+    rm1 = request.args.get('rm1', 'Roommate 1').strip()
+    rm2 = request.args.get('rm2', 'Roommate 2').strip()
+    rm3 = request.args.get('rm3', 'Roommate 3').strip()
+    rm4 = request.args.get('rm4', 'Roommate 4').strip()
+
+    roommates = [
+        Roommate('rm1', rm1),
+        Roommate('rm2', rm2),
+        Roommate('rm3', rm3),
+        Roommate('rm4', rm4)
+    ]
+
+    payer = roommates[0]  # default payer = first roommate
+    debts = defaultdict(float)
+
+    for row in expenses:
+        amount = row['amount']
+        split = amount / len(roommates)
+        for rm in roommates:
+            if rm.name != payer.name:
+                debts[f'{rm.name} owes {payer.name}'] += split
+
+    return jsonify({k: round(v, 2) for k, v in debts.items()})
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)

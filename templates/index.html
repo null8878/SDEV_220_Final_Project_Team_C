@@ -98,6 +98,21 @@
                     console.error('Error:', error);
                     alert("Failed to load expenses.");
                 });
+
+            /* fetch('/get_balances')
+                .then(response => response.json())
+                .then(data => {
+                    let resultsDiv = document.getElementById("results");
+                    resultsDiv.innerHTML += "<br>";
+
+                    data.forEach(exp => {
+                        resultsDiv.innerHTML += `• ${exp.name}: $${exp.amount}<br>`;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Failed to load expenses.");
+                }); */
         }
     </script>
 </head>

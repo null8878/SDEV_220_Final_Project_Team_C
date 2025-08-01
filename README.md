@@ -39,6 +39,14 @@ SplitSmart is a small Flask-based web application used to track shared expenses 
 
 Open <http://localhost:3000> in your browser to access the app.
 
+## Running tests
+
+Run the unit test suite with:
+
+```bash
+pytest
+```
+
 ## Usage example
 
 Enter the names of up to four roommates and specify the rent and grocery totals. Click **Add Bill** to save the expenses or **View Debts** to retrieve everything stored in the database.

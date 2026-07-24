@@ -56,7 +56,7 @@ The repository includes a sample `data/database` file for convenience. You can d
 
 ## Team Contributions
 
-- **Edward Clark (Project Manager & Backend Developer)**  
+- **Team Member (Backend Developer)**  
   Led development and planning. Built and tested all backend Flask routes including `/add_expense`, `/get_expenses`, and `/get_balances`. Integrated form inputs with SQLite, connected frontend to backend, managed GitHub repository, and ensured project completion.
 
 - **Emma (Frontend Developer)**  
